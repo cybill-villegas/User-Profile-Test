@@ -1,0 +1,6 @@
+@RRHI_Technical_Exam_HostAddress = http://localhost:5156
+
+GET {{RRHI_Technical_Exam_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
