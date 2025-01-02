@@ -9,5 +9,9 @@
         public string BirthDate {  get; set; }
         public int Age { get; set; }
         public string CreatedAt { get; set; }
+        public string PhoneNumber { get; set; }
+        public string Address { get; set; }
+        public string ProfilePictureUrl { get; set; }
+        public string About { get; set; }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using RRHI_Technical_Exam.Data;
 using RRHI_Technical_Exam.Interfaces;
 using RRHI_Technical_Exam.Models;
 
@@ -6,36 +7,43 @@ namespace RRHI_Technical_Exam.Repositories
 {
     public class UserRepository : IUserRepository
     {
-        private readonly DbContext _context;
+        private readonly UserDbContext _context;
 
-        public UserRepository(DbContext context)
+        public UserRepository(UserDbContext context)
         {
             _context = context;
         }
 
-        public Task AddUserAsyng(User user)
+        public async Task AddUserAsync(User user)
         {
-            throw new NotImplementedException();
+            await _context.Users.AddAsync(user); 
+            await _context.SaveChangesAsync();
         }
 
-        public Task DeleteUserAsyngAsync(int id)
+        public async Task UpdateUserAsync(User user)
         {
-            throw new NotImplementedException();
+            _context.Users.Update(user);
+            await _context.SaveChangesAsync();
         }
 
-        public Task<IEnumerable<User>> GetAllUsersAsync()
+        public async Task DeleteUserAsync(int id)
         {
-            return await _context.User.ToListAsync();
+            var user = await _context.Users.FindAsync(id);
+            if (user != null)
+            {
+                _context.Users.Remove(user);
+                await _context.SaveChangesAsync();
+            }
         }
 
-        public Task<User> GetUserByIdAsync(int id)
+        public async Task<IEnumerable<User>> GetAllUsersAsync()
         {
-            throw new NotImplementedException();
+            return await _context.Users.ToListAsync();
         }
 
-        public Task UpdateUserAsyngAsync(User user)
+        public async Task<User> GetUserByIdAsync(int id)
         {
-            throw new NotImplementedException();
+            return await _context.Users.FindAsync(id);
         }
     }
 }

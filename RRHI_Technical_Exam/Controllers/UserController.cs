@@ -18,40 +18,47 @@ namespace RRHI_Technical_Exam.Controllers
         public async Task<ActionResult<IEnumerable<User>>> GetAll()
         {
             var user = await _userRepository.GetAllUsersAsync();
-
             return Ok(user);
         }
 
         [HttpGet("getuserbyid/{id}")]
-        public async Task<ActionResult<IEnumerable<User>>> GetById()
+        public async Task<ActionResult<IEnumerable<User>>> GetById(int id)
         {
-            var user = await _userRepository.GetAllUsersAsync();
+            var user = await _userRepository.GetUserByIdAsync(id);
+
+            if (user == null) {
+                return NotFound();
+            }
 
             return Ok(user);
         }
 
         [HttpPost("createuser")]
-        public async Task<ActionResult<IEnumerable<User>>> Create()
+        public async Task<ActionResult> Create(User user)
         {
-            var user = await _userRepository.GetAllUsersAsync();
+            await _userRepository.AddUserAsync(user);
 
-            return Ok(user);
+            return CreatedAtAction(nameof(GetById), new { id = user.UserId }, user);
         }
 
         [HttpPut("updateuser")]
-        public async Task<ActionResult<IEnumerable<User>>> Update()
+        public async Task<ActionResult> Update(int id, User user)
         {
-            var user = await _userRepository.GetAllUsersAsync();
+            if (id != user.UserId)
+            {
+                return BadRequest();
+            }
 
-            return Ok(user);
+            await _userRepository.UpdateUserAsync(user);
+            return NoContent();
         }
 
         [HttpDelete("deleteuser/{id}")]
-        public async Task<ActionResult<IEnumerable<User>>> Delete()
+        public async Task<ActionResult<IEnumerable<User>>> Delete(int id)
         {
-            var user = await _userRepository.GetAllUsersAsync();
+            await _userRepository.DeleteUserAsync(id);
 
-            return Ok(user);
+            return NoContent();
         }
     }
 }

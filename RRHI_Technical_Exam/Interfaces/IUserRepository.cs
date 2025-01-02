@@ -7,8 +7,8 @@ namespace RRHI_Technical_Exam.Interfaces
     {
         Task<IEnumerable<User>> GetAllUsersAsync();
         Task<User> GetUserByIdAsync(int id);
-        Task AddUserAsyng(User user);
-        Task UpdateUserAsyngAsync(User user);
-        Task DeleteUserAsyngAsync(int id);
+        Task AddUserAsync(User user);
+        Task UpdateUserAsync(User user);
+        Task DeleteUserAsync(int id);
     }
 }
