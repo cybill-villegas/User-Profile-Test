@@ -15,10 +15,10 @@ namespace RRHI_Technical_Exam.Controllers
         }
 
         [HttpGet("getallusers")]
-        public async Task<ActionResult<IEnumerable<User>>> GetAll()
+        public async Task<ActionResult<IEnumerable<User>>> GetAll(int pageNumber = 1, int pageSize = 10)
         {
-            var user = await _userRepository.GetAllUsersAsync();
-            return Ok(user);
+            var users = await _userRepository.GetAllUsersAsync(pageNumber, pageSize);
+            return Ok(users);
         }
 
         [HttpGet("getuserbyid/{id}")]

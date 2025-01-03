@@ -8,6 +8,16 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<UserDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DatabaseConnection")));
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAllOrigins", builder =>
+    {
+        builder.AllowAnyOrigin()  // Allows all origins
+               .AllowAnyMethod()  // Allows any HTTP method (GET, POST, PUT, DELETE, etc.)
+               .AllowAnyHeader();  // Allows any headers
+    });
+});
+
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 
 builder.Services.AddControllers();
@@ -20,6 +30,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseCors("AllowAllOrigins");
 
 app.UseHttpsRedirection();
 

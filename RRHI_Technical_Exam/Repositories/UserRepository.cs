@@ -36,9 +36,28 @@ namespace RRHI_Technical_Exam.Repositories
             }
         }
 
-        public async Task<IEnumerable<User>> GetAllUsersAsync()
+        public async Task<PaginatedUsers> GetAllUsersAsync(int pageNumber, int pageSize)
         {
-            return await _context.Users.ToListAsync();
+            var totalCount = await _context.Users.CountAsync();  // Get the total number of users
+            var totalPages = (int)Math.Ceiling(totalCount / (double)pageSize); // Calculate total pages
+
+            var users = await _context.Users
+                .Skip((pageNumber - 1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync();  // Fetch the users for the current page
+
+            var paginationInfo = new Pagination
+            {
+                TotalCount = totalCount,
+                TotalPages = totalPages,
+                CurrentPage = pageNumber
+            };
+
+            return new PaginatedUsers
+            {
+                Users = users,
+                Pagination = paginationInfo
+            };
         }
 
         public async Task<User> GetUserByIdAsync(int id)

@@ -14,4 +14,10 @@
         public string ProfilePictureUrl { get; set; }
         public string About { get; set; }
     }
+
+    public class PaginatedUsers
+    {
+        public IEnumerable<User> Users { get; set; }
+        public Pagination Pagination { get; set; }
+    }
 }
