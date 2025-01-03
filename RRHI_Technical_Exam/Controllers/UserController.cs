@@ -46,10 +46,15 @@ namespace RRHI_Technical_Exam.Controllers
         {
             if (id != user.UserId)
             {
-                return BadRequest();
+                return BadRequest("User ID mismatch");
             }
 
-            await _userRepository.UpdateUserAsync(user);
+            var result = await _userRepository.UpdateUserAsync(user);
+            if (!result)
+            {
+                return NotFound("User not found");
+            }
+
             return NoContent();
         }
 

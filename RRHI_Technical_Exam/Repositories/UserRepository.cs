@@ -20,10 +20,17 @@ namespace RRHI_Technical_Exam.Repositories
             await _context.SaveChangesAsync();
         }
 
-        public async Task UpdateUserAsync(User user)
+        public async Task<bool> UpdateUserAsync(User user)
         {
-            _context.Users.Update(user);
+            var existingUser = await _context.Users.FindAsync(user.UserId);
+            if (existingUser == null)
+            {
+                return false; // Return false if user doesn't exist
+            }
+
+            _context.Entry(existingUser).CurrentValues.SetValues(user); // Update properties
             await _context.SaveChangesAsync();
+            return true;
         }
 
         public async Task DeleteUserAsync(int id)

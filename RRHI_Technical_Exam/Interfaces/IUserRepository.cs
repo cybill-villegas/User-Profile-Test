@@ -8,7 +8,7 @@ namespace RRHI_Technical_Exam.Interfaces
         Task<PaginatedUsers> GetAllUsersAsync(int pageNumber, int pageSize);
         Task<User> GetUserByIdAsync(int id);
         Task AddUserAsync(User user);
-        Task UpdateUserAsync(User user);
+        Task<bool> UpdateUserAsync(User user);
         Task DeleteUserAsync(int id);
     }
 }
